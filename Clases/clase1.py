@@ -41,22 +41,96 @@ def mezclar(cadena1, cadena2):
             
     return res
 
-print(mezclar("Pepe", "Josefa"))
+#print(mezclar("Pepe", "Josefa"))
 
 
 #4
 
-# def pagoDavid(montoPrestado, cantAños, pagoMensual):
-#     total = montoPrestado
-#     saldoRestante = montoPrestado
-#     cantMeses = cantAños * 12
-#     interesMensual = ((1.05) ** (1/12)) - 1  
+#Termino pagando menos de lo que en realidad deberia de estar pagando
+
+def pagoDavid(montoPrestado, pagoMensual):
+    total = 0
+    saldoRestante = montoPrestado
+    interesMensual = ((1.05) ** (1/12)) - 1  
     
-#     for i in range(0,cantMeses):
-#         saldoRestante -= (saldoRestante - pagoMensual) * interesMensual
-            
+    while saldoRestante > 0:
+        saldoRestante += (saldoRestante * interesMensual)
+        pago = min(pagoMensual,saldoRestante)
+        saldoRestante -= pago
+        total += pago
         
+    return round(total, 2)
+
+#print(pagoDavid(500000, 2684.11))
+        
+def pagoDavid2(montoPrestado, pagoMensual, pagoAdelanto, cantMesesAdelanto):
+    total = 0
+    saldoRestante = montoPrestado
+    interesMensual = ((1.05) ** (1/12)) - 1  
+    meses = 0
     
+    while saldoRestante > 0:
+        saldoRestante += saldoRestante * interesMensual
+        
+        if meses < cantMesesAdelanto:
+            pago = min(pagoMensual + pagoAdelanto, saldoRestante)
+        elif meses >= cantMesesAdelanto:
+            pago = min(pagoMensual, saldoRestante)
+        
+        meses += 1
+        saldoRestante -= pago    
+        total += pago
+        
+    return round(total, 2), meses 
+
+#print(pagoDavid2(500000, 2684.11, 1000, 12))
+
+def pagoDavid3(montoPrestado, pagoMensual, pagoAdelanto, comienzoMes, finalizaAdelantoMesMes ):
+    total = 0
+    saldoRestante = montoPrestado
+    interesMensual = ((1.05) ** (1/12)) - 1  
+    meses = 0
+    
+    while saldoRestante > 0:
+        saldoRestante += saldoRestante * interesMensual
+    
+        if comienzoMes <= meses < finalizaAdelantoMesMes:
+            pago = min(pagoMensual + pagoAdelanto, saldoRestante)
+        else:
+            pago = min(pagoMensual, saldoRestante)
+    
+        meses += 1
+        saldoRestante -= pago    
+        total += pago
+        
+    return round(total, 2), meses 
+
+#print(pagoDavid3(500000, 2684.11, 1000, 60, 108))
+
 #5
 
-def traductor_geringoso(lista) -> dict:
+def geringoso(word):
+    gerin = ""
+    
+    for letter in word:
+        gerin += letter
+        if letter in "AEIOUaeiou":
+            gerin += "p" + letter
+        
+    return gerin
+
+def traductor_geringoso(lista:list) -> dict:
+
+    diccionario = {}
+    
+    for elem in lista:
+        diccionario[elem] = geringoso(elem)
+        
+    return diccionario
+
+print(traductor_geringoso(['banana', 'manzana', 'mandarina']))
+
+
+
+
+
