@@ -1,0 +1,53 @@
+Apuntes de Panda y NumPy
+
+NumPy:
+
+- Estandar para trabajar con datos numericos
+- Objetos: matrices multidimensionales por medio del tipo "ndarray"
+
+se importa: "umport numpy as np"
+
+Puedo crear matrices con 
+np.array 	#genero la matriz por preferencia mia
+np.zeros 	#genero la matriz con solo ceros y las filas y 			columnas que indique
+np.arange	#genero un vector que indico con inicio fin y 			saltos
+np.linspace	#genero un vector que indico con inicio fin y 			cantidad
+np.concatenate  # mas que claro
+
+Consultar por lo de shape y reshape. Axis?
+
+Sobre estos vectores\matrices se pueden hacer operaciones como las que aprendimos en algebra (multiplicacion, suma, resta, division).
+Tambien se pueden sumar todos los valores del vector\matriz, como Tambien buscar sus minimos y maximos dentro de la matriz (en este caso se indicara el numero, no la fila y columna)
+Para acceder a la matriz basta con nombrarla y marcar los parametros del numero al que se quiere encontrar.
+
+
+Pandas:
+
+- Extension de NumPy para manipulacion y analisis de Datos
+- Ofrece estructuras de datos y operaciones para manipular tablas de datos(numéricos y de otros tipos) y series temporales.
+- Tipos de datos fundamentales: DataFrames que almacenan tablas de datos y las Series que contienen secuencias de datos
+
+se importa: import pandas as pd
+
+En si es utilizado como un manejo de los datos de forma ordenada. Se usan los dataframes para hacer una idea mas uniforme de los datos. Se pueden crear Data Frames con arrays, diccionarios, csv (al leerlos), etc.
+
+Operaciones:
+
+df.head()		# primeras 5 líneas
+df.tail()		# últimas 5
+df.info()		# info del df
+df.dtypes		# tipos de dato
+df.columns		# columnas
+df.index		# indice (id de filas, pueden no ser int)
+df.describe()		# una descripción
+df[columnas]		# selecciono algunas columnas (una lista) por nombre
+df[columna]		# solo una columna (sin lista) da una Serie
+df.iloc[i]		# acceso a la fila i-ésima
+df.iloc[2:6]		# filas 2 a 5
+df.loc[index_6]		# acceso a fila por el index
+df.loc[index_5, col2]	# acceso a fila Y columna con index y nombre de col
+df.sample()		# muestra una fila random
+df.sample(n = 3)	# muestra n filas random
+
+
+
