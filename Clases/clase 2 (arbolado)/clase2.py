@@ -1,4 +1,5 @@
 import csv
+import pandas as pd
 
 #1
 
@@ -61,9 +62,9 @@ def contar_ejemplares(lista_arboles):
     return contadorArboles_Especie
             
 centenario_Arboles = leer_parque(nombre_archivo, 'CENTENARIO')
-losAndes_Arboles = leer_parque(nombre_archivo, 'EJERCITO DE LOS ANDES')  # 1 Tilo en vez de 3
+losAndes_Arboles = leer_parque(nombre_archivo, 'ANDES, LOS') 
 
-#print(contar_ejemplares(centenario_Arboles)) # Ambos Centenario y General Paz son correctos
+#print(contar_ejemplares(losAndes_Arboles)) #Funciona
 
 
 #4
@@ -102,11 +103,11 @@ def promedioArbol_Especie(lista_arboles, especie):
 
 #print(arbolMasAlto_Especie(general_paz_Arboles, 'Jacarandá')) # 16
 #print(arbolMasAlto_Especie(centenario_Arboles, 'Jacarandá')) # 18
-#print(arbolMasAlto_Especie(losAndes_Arboles, 'Jacarandá'))  # 21    Aca estoy agarrando otra lista, porque sino carece de sentido
+#print(arbolMasAlto_Especie(losAndes_Arboles, 'Jacarandá'))  # 25
 
 #print(promedioArbol_Especie(general_paz_Arboles, 'Jacarandá' )) #10.2
 #print(promedioArbol_Especie(centenario_Arboles, 'Jacarandá' )) #8.96
-
+#print(promedioArbol_Especie(losAndes_Arboles, 'Jacarandá')) #10.54
 
 #5
 
@@ -155,8 +156,102 @@ def especimen_mas_inclinado(lista_arboles):
 
 #7
 
-#Es tarde, no se me ocurre bien si hacerlo con un diccionario de especies y sus inclinaciones como clave, o si otra solucion es mas viable.
+def especie_promedio_mas_inclinada(lista_arboles):
+    
+    dict_Inclinaciones_Especie = {}
+    
+    for arbol in lista_arboles:
+        
+        especie = arbol["nombre_com"]
+        inclinacion = arbol["inclinacio"]
+        
+        if especie in dict_Inclinaciones_Especie:    
+            dict_Inclinaciones_Especie[especie].append(inclinacion)
+        else:
+           dict_Inclinaciones_Especie[especie] = [inclinacion]
+    
+    dict_Inclinaciones_Especie_Promedio = {}
+    
+    for especie, inclinaciones in dict_Inclinaciones_Especie.items():
+        dict_Inclinaciones_Especie_Promedio[especie] = round(sum(inclinaciones)/ len(inclinaciones), 3)
+        
+    clave_maxValue = max(dict_Inclinaciones_Especie_Promedio, key = dict_Inclinaciones_Especie_Promedio.get())
+    maxValue = dict_Inclinaciones_Especie_Promedio[clave_maxValue]
+    
+    return maxValue      
+           
+#print(especie_promedio_mas_inclinada(general_paz_Arboles))    # No se donde me equivoco!!!   
 
-#def especie_promedio_mas_inclinada(lista_arboles):
-    
-    
+#8
+
+
+archivo_veredas = 'arbolado-vereda.csv'
+
+df = pd.read_csv(archivo_veredas)
+
+secciones_interes = ['nombre_cientifico', 'diametro_altura_pecho', 'altura_arbol']
+df_reducido =df[secciones_interes]
+
+df_veredas = df_reducido[(df_reducido['nombre_cientifico'] == 'Tilia x moltkei' ) | 
+                             (df_reducido['nombre_cientifico'] == 'Jacaranda mimosifolia')|
+                              (df_reducido['nombre_cientifico'] == 'Tipuana tipu' )]
+                              
+# print(df_veredas.head())
+
+dfP = pd.read_csv(nombre_archivo)   
+
+secciones_interes2 = ['nombre_cie', 'diametro', 'altura_tot']
+dfP_reducido = dfP[secciones_interes2]
+
+especies_seleccionadas = ['Tilia viridis subsp. x moltkei', 'Jacaranda mimosifolia', 'Tipuana Tipu']
+df_parques = dfP_reducido[dfP_reducido['nombre_cie'].isin(especies_seleccionadas)]
+
+# print(df_parques.head())
+
+especies_seleccionadas_vereda = ['Tilia x moltkei', 'Jacaranda mimosifolia', 'Tipuana tipu']
+
+df_tipas_veredas = df_veredas[df_veredas['nombre_cientifico'].isin(especies_seleccionadas_vereda)].copy()
+df_tipas_parques = df_parques[df_parques['nombre_cie'].isin(especies_seleccionadas)].copy()
+
+df_tipas_parques.rename(columns = { 'nombre_cie' : 'nombre_cientifico',
+                                   'altura_tot' : 'altura_arbol'}, inplace = True)
+
+df_tipas_veredas.rename(columns = {'diametro_altura_pecho' : 'diametro'}, inplace = True)
+
+mismo_nombre_especie = {'Tilia viridis subsp. x moltkei' :'Tilia x moltkei' ,
+                        'Tipuana Tipu' : 'Tipuana tipu' }
+
+df_tipas_parques['nombre_cientifico'] = df_tipas_parques['nombre_cientifico'].replace(mismo_nombre_especie)
+
+#print(df_tipas_parques.head())
+#print(df_tipas_veredas.head())
+
+
+#9
+
+df_tipas_parques['ambiente'] = 'parque'
+df_tipas_veredas['ambiente'] = 'vereda'
+
+#print(df_tipas_parques.head())
+#print(df_tipas_veredas.head())
+
+#10
+
+df_concat = pd.concat([df_tipas_parques, df_tipas_veredas], ignore_index= True)
+
+#11
+
+print(df_concat.sample(40))
+
+
+# COMENTARIOS SOBRE LA PRACTICA Y CONSULTAS
+
+# COMETO UN ERROR EN EL 7, CONSULTAR
+
+# DESPUES, SOBRE EL ANALISIS DEL ULTIMO. ES UN POCO RARO PODER COMPARAR CON 3 TIPOS DE ARBOL DE UNA MANERA SIMPLE.
+# SERIA MAS FACIL TRABAJAR SOBRE UN ARBOL SOLO Y CON ESO BASTARIA PARA COMPARAR. 
+
+# CONSULTAR SI ES POSIBLE PODER ELEGIR EJEMPLARES UNICOS DE UNO Y EJEMPLARES UNICOS DEL OTRO, DENTRO DE LA SOLUCION CONCATENADA.
+# DE SER ASI ES MAS FACIL ANALIZAR LOS DATOS. SINO ES PREFERIBLE AGARRAR UNA CANTIDAD FINITA DE SAMPLES Y DE AHI COMPARAR, PERO NO VEO MUY NECESARIO HACERLO EN UNA LISTA CONCATENADA, AL MENOS NO CON 3 TIPOS DE ARBOL DISTINTOS.
+
+
