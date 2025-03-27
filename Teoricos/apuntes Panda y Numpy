@@ -48,6 +48,10 @@ df.loc[index_6]		# acceso a fila por el index
 df.loc[index_5, col2]	# acceso a fila Y columna con index y nombre de col
 df.sample()		# muestra una fila random
 df.sample(n = 3)	# muestra n filas random
-
-
+pd.concat()		# concatena
+df.mean()		# hace el promedio
+df.explode()		# separa los valores de lista en filas individuales para un valor
+df.valuecounts()	# cuenta automáticamente cuántas veces aparece cada tipo de valor.
+df.apply(funcion, axis)	# recibe una función y la aplica sobre cada fila o columna del DataFrame.
+df.idmax()		# Devuelve el valor que mas aparece
 
