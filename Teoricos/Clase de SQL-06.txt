@@ -1,0 +1,119 @@
+Clase de SQL-06
+
+Operaciones:
+
+Operaciones Unarias:
+
+- Select:
+
+  Funcion: Selecciona un subconjunto de tuplas de una relaci´on que satisface cierta condicion
+
+  Notacion: σ <condicion de seleccion>(R)
+
+  Genera una particion horizontal de la relacion
+
+  Es conmutativo: σ c1 (σ c2 (R)) = σ c2 (σ c1 (R))
+
+
+  SQL. Se especifica t´ıpicamente en la cl´ausula WHERE
+  Ejemplo. σ Sexo=F AND Salario > $15.000(EMPLEADO) 
+  se puede corresponder con:
+
+SELECT *
+FROM EMPLEADO
+WHERE Sexo=F AND Salario>$15.000;
+
+- Project:
+
+  Funcion:  Selecciona un subconjunto de columnas de una relacion
+  
+  Notacion:  π <lista de atributos>(R)
+
+  Genera una particion vertical de la relacion
+
+  SQL. Se especifica t´ıpicamente en la clausula SELECT DISTINCT
+  Ejemplo. π Sexo,Salario (EMPLEADO) 
+  se puede corresponder con:
+
+SELECT DISTINCT Sexo, Salario
+FROM EMPLEADO
+
+- Rename:
+
+  Funcion: Asigna nombre a atributos / relacion resultado
+
+  Notacion: ρ S(B1,B2,...,Bn )(R) ´o ρ S (R) ´o ρ (B1,B2,...,Bn )(R)
+
+  SQL. Se especifica tıpicamente en la clausula AS
+  Ejempl:
+
+SELECT EMP.DNI AS id, EMP.Salario AS Ingreso
+FROM EMPLEADO AS EMP
+
+Select permite seleccionar casos especificos de cada dato, mientras que Project se centra en una columna en particular
+
+Operaciones Binarias:
+
+- Union, Intersection, Minus:
+
+  Funcion: Equivalente a operaciones matematicas sobre conjuntos
+
+  Notacion: R ∪ S, R ∩ S, R − S
+  
+  Duplicados: La relacion resultante no contiene duplicados
+  
+  Union Compatible: Se dice que dos relaciones R(A1, A2, ..., An) y S(B1, B2, ..., Bn) son union compatibles (o compatibles por tipos) si:
+
+   Ambas tienen grado n
+   (∀i, 1 ≤ i ≤ n) tipo(Ai ) = tipo(Bi)
+
+  SQL 1. Operaciones en SQL UNION, INTERSECT, EXCEPT funcionan como en AR
+  
+  SQL 2. Operaciones en SQL UNION ALL, INTERSECT ALL, EXCEPT ALL no eliminan duplicados
+
+- Cartesian Product
+
+  Funcion:  Produce una nueva relacion que combina cada tupla de una relacion con cada una de las tuplas de la otra relacion
+  
+  Notacion: R X S
+
+  Uni´on compatible: Las relaciones no tienen que ser uni´on compatibles
+  Grado. Si T = R X S entonces grado(T ) = grado(R) + grado(S)
+
+  SQL. CROSS JOIN
+
+- Join:
+
+  Funcion:  Permite combinar pares de tuplas relacionadas entre dos relaciones
+  
+  Notacion: R ▷◁ <condicion>  S
+
+  EQUIJOIN: JOIN donde solo se utiliza la operacion = en la < condici ´on >
+
+  NATURAL JOIN: Realiza el JOIN entre campos de mismo nombre y deja solo uno de los campos duplicados
+
+  Requerimiento:  Requiere que atributos de JOIN tengan el mismo nombre. De
+no ser el caso, se debe hacer un RENAME previo
+
+  SQL:Se Puede realizar de multiples maneras.
+
+  Ejemplo.
+
+NACIONALIDADES TEMP(Nacionalidad,Detalle)←π IDN,Detalle (NACIONALIDADES)
+RESULT ←PERSONA ▷◁ NACIONALIDADES TEMP
+
+  se puede corresponder con:
+
+SELECT Persona.Nombre, Persona.Nacionalidad, NACIONALIDADES.Detalle
+FROM PERSONA, NACIONALIDADES
+WHERE PERSONA.Nacionalidad=NACIONALIDADES.IDN;
+
+- Division:
+
+  Funcion:  Retorna los valores de R que se encuentran emparejados con TODOS los valores de S
+  
+  Notacion:  R ÷ S. Requiere que atributos de S ⊂ atributos de R. Resultado contiene atributos de R menos atributos de S
+
+  Operacion compuesta. Se puede expresar como secuencia de otras operaciones (π, X , −)
+
+  SQL: No suele implementar DIVISION

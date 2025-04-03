@@ -30,7 +30,7 @@ empleado_03 = [[20222333, 20000, 45, 2],
                [45432345, 10000, 41, 1],
                [43967304, 12000, 37, 0],
                [42236276, 18000, 36, 0]]
-
+ 
 #Tengo que cambiar lo de empleado nomas, muy sencillo
 
 def superanSalarioActividad_03 (empleados, umbral):
