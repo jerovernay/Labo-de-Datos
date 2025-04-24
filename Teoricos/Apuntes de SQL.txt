@@ -1,0 +1,3 @@
+Apuntes de SQL
+
+Vamos a trabajar con sentencias DML (manipulacion de datos), pero existen las sentencias DDL (manejo de tablas en todo sentido)
