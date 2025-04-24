@@ -26,7 +26,10 @@ WHERE departamento_id = 0 OR provincia_id = 0
 
 #print(res2)
 
-# Duplicados exactos
+
+# Registros de edad on grupos no especificados 
+
+# Busco duplicados exactos
 res3 = con.execute("""
 SELECT *, COUNT(*) as repeticiones
 FROM casos
@@ -36,7 +39,7 @@ HAVING COUNT(*) > 1
 
 #print(res3)
 
-# Registros de edad on grupos no especificados 
+# Busco cantidad de casos y los casos concretos
 
 res4 = con.execute("""
 SELECT *
