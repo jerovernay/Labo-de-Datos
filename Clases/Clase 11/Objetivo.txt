@@ -1,0 +1,12 @@
+Objetivo:
+
+- Evaluar la completitud de los datos de edad en los registro.
+
+Preguntas:
+
+¿Cuántos registros no tienen grupo de edad especificado?
+
+¿Cuáles son los grupos de edad menos frecuentes?
+
+¿Existen grupos de edad que parecen fuera de lo esperable?
+
